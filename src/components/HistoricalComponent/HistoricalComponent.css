@@ -1,0 +1,13 @@
+.header-col {
+  text-align: center;
+}
+.table {
+  height: 100% !important;
+  width: 80% !important;
+  margin: auto !important;
+}
+
+.table th,
+.table td {
+  text-align: center;
+}

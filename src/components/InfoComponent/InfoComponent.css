@@ -1,0 +1,8 @@
+.info-row > div {
+  background-color: rgb(13, 163, 38);
+  border: 1px white solid;
+}
+.info-row {
+  color: white;
+  height: 300px;
+}
