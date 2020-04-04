@@ -3,8 +3,8 @@ import InfoComponent from "./components/InfoComponent/InfoComponent";
 import HistoricalComponent from "./components/HistoricalComponent/HistoricalComponent";
 import { Switch, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
-//import "bootstrap/dist/css/bootstrap-theme.css";
 import "./App.css";
+import NotFoundComponent from "./components/NotFoundComponent";
 
 function App() {
   return (
@@ -16,6 +16,7 @@ function App() {
           exact
           component={HistoricalComponent}
         ></Route>
+        <Route component={NotFoundComponent} />
       </Switch>
     </React.Fragment>
   );

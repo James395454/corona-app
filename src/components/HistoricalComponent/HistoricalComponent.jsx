@@ -30,11 +30,7 @@ class HistoricalComponent extends Component {
     this.setState({ historicalData });
   }
 
-  render() {
-    const name = this.props.match.params.datatype;
-    const country = this.props.match.params.country;
-    let data = { time: [] };
-    let keys = ["time"];
+  arrangeData = (data, keys) => {
     if (this.state.historicalData) {
       Object.entries(this.state.historicalData.timeline).map(
         ([key1, value1], index) => {
@@ -49,6 +45,14 @@ class HistoricalComponent extends Component {
         }
       );
     }
+  };
+
+  render() {
+    const name = this.props.match.params.datatype;
+    const country = this.props.match.params.country;
+    let data = { time: [] };
+    let keys = ["time"];
+    this.arrangeData(data, keys);
     console.log(keys);
     return (
       <React.Fragment>
