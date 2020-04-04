@@ -9,7 +9,7 @@ class CountrySelectComponent extends Component {
           Select Country
         </Dropdown.Toggle>
 
-        <Dropdown.Menu style={{ height: 200, overflow: "auto" }}>
+        <Dropdown.Menu style={{ height: 400, overflow: "auto" }}>
           {this.props.info.map(i => (
             <Dropdown.Item name={i.country}>{i.country}</Dropdown.Item>
           ))}
