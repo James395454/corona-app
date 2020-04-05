@@ -13,3 +13,8 @@
   height: 400px;
   overflow: auto;
 }
+
+input {
+  position: sticky;
+  top: 0;
+}
