@@ -73,7 +73,7 @@ class InfoComponent extends Component {
 
           <Container fluid className="elements-container">
             {sizeArr.map((x, i) => (
-              <Row className="info-row">
+              <Row key={i} className="info-row">
                 {dataArr
                   .slice(i * num_cols, i * num_cols + num_cols)
                   .map(el => (
@@ -82,6 +82,7 @@ class InfoComponent extends Component {
                       sm="6"
                       xs="12"
                       className="element-col"
+                      key={el.display}
                     >
                       <InfoElementComponent
                         infoName={el.display}

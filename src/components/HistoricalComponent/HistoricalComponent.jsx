@@ -62,15 +62,15 @@ class HistoricalComponent extends Component {
                 <thead>
                   <tr>
                     {keys.map(key => (
-                      <th>{key}</th>
+                      <th key={key}>{key}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {data[keys[0]].map((d, i) => (
-                    <tr>
-                      {keys.map(k => (
-                        <td>{data[k][i]}</td>
+                  {data[keys[0]].map((d, i1) => (
+                    <tr key={i1}>
+                      {keys.map((k, i2) => (
+                        <td key={i2}>{data[k][i1]}</td>
                       ))}
                     </tr>
                   ))}

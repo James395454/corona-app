@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { CustomMenu } from "../CustomMenu/CustomMenu";
 import { Dropdown } from "react-bootstrap";
 
 import "./CountrySelectComponent.css";
@@ -11,11 +12,11 @@ class CountrySelectComponent extends Component {
           Select Country
         </Dropdown.Toggle>
 
-        <Dropdown.Menu className="menu">
+        <Dropdown.Menu as={CustomMenu} className="menu">
           {this.props.info.map(i => (
             <Dropdown.Item name={i.country} key={i.country}>
               <img className="dropdown-img" src={i.countryInfo.flag}></img>
-              &nbsp;&nbsp;{i.country}
+              {i.country}
             </Dropdown.Item>
           ))}
         </Dropdown.Menu>
