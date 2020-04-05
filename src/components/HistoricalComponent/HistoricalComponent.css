@@ -1,13 +1,22 @@
 .header-col {
   text-align: center;
 }
-.table {
+
+.btn-container {
+  padding-top: 10px;
+}
+
+.table-container {
+  padding-top: 20px;
+}
+
+table {
   height: 100% !important;
   width: 80% !important;
   margin: auto !important;
 }
 
-.table th,
-.table td {
+table th,
+table td {
   text-align: center;
 }

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Dropdown } from "react-bootstrap";
 
+import "./CountrySelectComponent.css";
+
 class CountrySelectComponent extends Component {
   render() {
     return (
@@ -9,9 +11,12 @@ class CountrySelectComponent extends Component {
           Select Country
         </Dropdown.Toggle>
 
-        <Dropdown.Menu style={{ height: 400, overflow: "auto" }}>
+        <Dropdown.Menu className="menu">
           {this.props.info.map(i => (
-            <Dropdown.Item name={i.country}>{i.country}</Dropdown.Item>
+            <Dropdown.Item name={i.country} key={i.country}>
+              <img className="dropdown-img" src={i.countryInfo.flag}></img>
+              &nbsp;&nbsp;{i.country}
+            </Dropdown.Item>
           ))}
         </Dropdown.Menu>
       </Dropdown>

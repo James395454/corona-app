@@ -1,8 +1,37 @@
+.header-container {
+  background-image: linear-gradient(to right, red, yellow);
+  color: white;
+}
+.selection-container {
+  padding-top: 30px;
+}
 .info-row > div {
-  background-color: rgb(13, 163, 38);
+  background-color: rgb(13, 18, 163);
   border: 1px white solid;
 }
 .info-row {
   color: white;
-  height: 300px;
+  min-height: 200px;
+}
+.elements-container {
+  background-color: green;
+}
+.element-col {
+  border: 1px black solid !important;
+  border-radius: 5px;
+}
+.img-row {
+  min-height: 250px;
+  text-align: center;
+}
+img {
+  margin-top: 10px;
+  border: 3px gray solid !important;
+}
+.small-row-align-center {
+  min-height: 50px;
+  text-align: center;
+}
+.bottom-container {
+  padding: 20px 0 20px 0;
 }

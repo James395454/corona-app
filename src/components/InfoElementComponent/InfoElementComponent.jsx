@@ -1,23 +1,22 @@
 import React, { Component } from "react";
 import "./InfoElementComponent.css";
+import { Container, Row, Col } from "react-bootstrap";
 
 class InfoElementComponent extends Component {
   render() {
     return (
-      <React.Fragment>
-        <div className="container element-container">
-          <div className="row element-info-row">
-            <div className="col-md-12">
-              <h2>{this.props.infoName}:</h2>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-12">
-              <h2>{this.props.infoValue}</h2>
-            </div>
-          </div>
-        </div>
-      </React.Fragment>
+      <Container className="element-container">
+        <Row className="element-info-row">
+          <Col>
+            <h2>{this.props.infoName}:</h2>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <h2>{this.props.infoValue}</h2>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
