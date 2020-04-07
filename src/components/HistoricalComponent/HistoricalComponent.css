@@ -11,8 +11,6 @@
 }
 
 table {
-  height: 100% !important;
-  width: 80% !important;
   margin: auto !important;
 }
 
@@ -21,7 +19,15 @@ table td {
   text-align: center;
 }
 
-table th {
-  position: sticky;
-  top: 0;
+thead,
+tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+tbody {
+  display: block;
+  max-height: 400px;
+  overflow: auto;
 }
