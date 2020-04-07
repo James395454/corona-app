@@ -20,3 +20,8 @@ table th,
 table td {
   text-align: center;
 }
+
+table th {
+  position: sticky;
+  top: 0;
+}
