@@ -3,7 +3,7 @@ import { getInfo } from "../../services/Info";
 import { Link } from "react-router-dom";
 import CountrySelectComponent from "../CountrySelectComponent/CountrySelectComponent";
 import InfoElementComponent from "../InfoElementComponent/InfoElementComponent";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
 import "./InfoComponent.css";
 
 const DEFAULT_COUNTRY = "Egypt";
@@ -20,12 +20,15 @@ const dataArr = [
 
 class InfoComponent extends Component {
   state = {
+    isLoading: true,
     countryInfo: null,
     info: [],
     historicalData: []
   };
   async componentDidMount() {
     await this.loadInfoAndCountry(DEFAULT_COUNTRY);
+
+    this.setState({ isLoading: false });
   }
 
   onCountrySelected = async (ek, e) => {
@@ -39,7 +42,7 @@ class InfoComponent extends Component {
   }
 
   render() {
-    const { info, countryInfo } = this.state;
+    const { info, countryInfo, isLoading } = this.state;
     const num_cols = 4;
     let sizeArr = new Array(dataArr.length / num_cols).fill(0);
     return (
@@ -70,29 +73,45 @@ class InfoComponent extends Component {
               </Col>
             </Row>
           </Container>
-
-          <Container fluid className="elements-container">
-            {sizeArr.map((x, i) => (
-              <Row key={i} className="info-row">
-                {dataArr
-                  .slice(i * num_cols, i * num_cols + num_cols)
-                  .map(el => (
-                    <Col
-                      md={12 / num_cols}
-                      sm="6"
-                      xs="12"
-                      className="element-col"
-                      key={el.display}
-                    >
-                      <InfoElementComponent
-                        infoName={el.display}
-                        infoValue={countryInfo[el.name]}
-                      ></InfoElementComponent>
-                    </Col>
-                  ))}
+          {isLoading ? (
+            <Container fluid>
+              <Row>
+                <Col>
+                  <Spinner
+                    style={{ margin: "auto", display: "block" }}
+                    animation="border"
+                    role="status"
+                    hidden={!isLoading}
+                  >
+                    <span className="sr-only">Loading...</span>
+                  </Spinner>
+                </Col>
               </Row>
-            ))}
-          </Container>
+            </Container>
+          ) : (
+            <Container fluid className="elements-container">
+              {sizeArr.map((x, i) => (
+                <Row key={i} className="info-row">
+                  {dataArr
+                    .slice(i * num_cols, i * num_cols + num_cols)
+                    .map(el => (
+                      <Col
+                        md={12 / num_cols}
+                        sm="6"
+                        xs="12"
+                        className="element-col"
+                        key={el.display}
+                      >
+                        <InfoElementComponent
+                          infoName={el.display}
+                          infoValue={countryInfo[el.name]}
+                        ></InfoElementComponent>
+                      </Col>
+                    ))}
+                </Row>
+              ))}
+            </Container>
+          )}
           <Container fluid className="bottom-container">
             <Row className="small-row-align-center">
               <Col>
