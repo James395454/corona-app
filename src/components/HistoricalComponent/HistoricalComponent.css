@@ -31,3 +31,10 @@ tbody {
   max-height: 400px;
   overflow: auto;
 }
+
+@media only screen and (max-width: 500px) {
+  table th,
+  table td {
+    font-size: 0.6em;
+  }
+}
