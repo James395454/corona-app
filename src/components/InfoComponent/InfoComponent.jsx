@@ -30,11 +30,11 @@ class InfoComponent extends Component {
   }
 
   onCountrySelected = async (ek, e) => {
+    this.setState({ isLoading: true });
     await this.loadInfoAndCountry(e.target.name);
   };
 
   async loadInfoAndCountry(country) {
-    this.setState({ isLoading: true });
     const info = await getInfo();
     const countryInfo = info.find(i => i.country === country);
     this.setState({ info, countryInfo, isLoading: false });
