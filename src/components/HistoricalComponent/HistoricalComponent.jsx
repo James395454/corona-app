@@ -95,7 +95,7 @@ class HistoricalComponent extends Component {
         </Container>
 
         <Container fluid className="table-container">
-          <Row>
+          <Row className="table-row">
             <Col>
               {this.state.isLoading ? (
                 <Container fluid>
