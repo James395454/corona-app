@@ -27,8 +27,6 @@ class InfoComponent extends Component {
   };
   async componentDidMount() {
     await this.loadInfoAndCountry(DEFAULT_COUNTRY);
-
-    this.setState({ isLoading: false });
   }
 
   onCountrySelected = async (ek, e) => {
@@ -36,9 +34,10 @@ class InfoComponent extends Component {
   };
 
   async loadInfoAndCountry(country) {
+    this.setState({ isLoading: true });
     const info = await getInfo();
     const countryInfo = info.find(i => i.country === country);
-    this.setState({ info, countryInfo });
+    this.setState({ info, countryInfo, isLoading: false });
   }
 
   render() {
