@@ -1,127 +1,182 @@
 import React, { Component } from "react";
 import { getInfo } from "../../services/Info";
 import { Link } from "react-router-dom";
-import CountrySelectComponent from "../CountrySelectComponent/CountrySelectComponent";
-import InfoElementComponent from "../InfoElementComponent/InfoElementComponent";
-import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHistory,
+  faArrowUp,
+  faArrowDown
+} from "@fortawesome/free-solid-svg-icons";
+import { Container, Row, Col, Form, Spinner, Table } from "react-bootstrap";
 import "./InfoComponent.css";
 
-const DEFAULT_COUNTRY = "Egypt";
-const dataArr = [
-  { display: "Total Cases", name: "cases" },
-  { display: "Total Deaths", name: "deaths" },
-  { display: "Today Cases", name: "todayCases" },
-  { display: "Today Deaths", name: "todayDeaths" },
-  { display: "Recovered", name: "recovered" },
-  { display: "Active", name: "active" },
-  { display: "Critical", name: "critical" },
-  { display: "Cases Per One Million", name: "casesPerOneMillion" }
+const dataArrInitialValue = [
+  { display: "Country", name: "country", sorted: false, visible: true },
+  { display: "Total Cases", name: "cases", sorted: false, visible: false },
+  { display: "Total Deaths", name: "deaths", sorted: false, visible: false },
+  { display: "Today Cases", name: "todayCases", sorted: false, visible: false },
+  {
+    display: "Today Deaths",
+    name: "todayDeaths",
+    sorted: false,
+    visible: false
+  },
+  { display: "Recovered", name: "recovered", sorted: false, visible: false },
+  { display: "Active", name: "active", sorted: false, visible: false },
+  { display: "Critical", name: "critical", sorted: false, visible: false },
+  {
+    display: "Cases/Million",
+    name: "casesPerOneMillion",
+    sorted: false,
+    visible: false
+  }
 ];
 
 class InfoComponent extends Component {
   state = {
     isLoading: true,
-    countryInfo: null,
     info: [],
-    historicalData: []
+    filteredInfo: [],
+    dataArr: [...dataArrInitialValue]
   };
   async componentDidMount() {
-    await this.loadInfoAndCountry(DEFAULT_COUNTRY);
+    const info = await getInfo();
+    this.setState({
+      info,
+      filteredInfo: info,
+      isLoading: false
+    });
   }
 
-  onCountrySelected = async (ek, e) => {
-    this.setState({ isLoading: true });
-    await this.loadInfoAndCountry(e.target.name);
+  handleFilterChange = e => {
+    const text = e.target.value;
+    let { filteredInfo, info } = JSON.parse(JSON.stringify(this.state));
+    filteredInfo = text.length
+      ? info.filter(i =>
+          i.country.toLowerCase().startsWith(text.toLowerCase().trim())
+        )
+      : info;
+    this.setState({ filteredInfo });
   };
 
-  async loadInfoAndCountry(country) {
-    const info = await getInfo();
-    const countryInfo = info.find(i => i.country === country);
-    this.setState({ info, countryInfo, isLoading: false });
-  }
+  sortColumn = headerText => {
+    let { filteredInfo, dataArr } = JSON.parse(JSON.stringify(this.state));
+    const header = headerText;
+    let item = dataArr.find(d => d.name === headerText);
+
+    filteredInfo = filteredInfo.sort(function(a, b) {
+      if (!isNaN(a[header]))
+        return item.sorted ? b[header] - a[header] : a[header] - b[header];
+      else
+        return item.sorted
+          ? ("" + a[header]).localeCompare(b[header])
+          : ("" + b[header]).localeCompare(a[header]);
+    });
+
+    item.sorted = !item.sorted;
+    item.visible = true;
+    let otherElements = dataArr.filter(d => d.name !== headerText);
+    otherElements.forEach(el => {
+      el.sorted = false;
+      el.visible = false;
+      return el;
+    });
+    this.setState({ filteredInfo, dataArr });
+  };
 
   render() {
-    const { info, countryInfo, isLoading } = this.state;
-    const num_cols = 4;
-    let sizeArr = new Array(dataArr.length / num_cols).fill(0);
+    const { info, filteredInfo, isLoading, dataArr } = { ...this.state };
     return (
-      countryInfo && (
-        <React.Fragment>
-          <Container fluid className="header-container">
-            <Row className="row header-row">
+      <React.Fragment>
+        {isLoading ? (
+          <Container fluid>
+            <Row>
               <Col>
-                <h2>COVID-19 Statistics</h2>
+                <Spinner
+                  style={{ margin: "auto", display: "block" }}
+                  animation="border"
+                  role="status"
+                  hidden={!isLoading}
+                >
+                  <span className="sr-only">Loading...</span>
+                </Spinner>
               </Col>
             </Row>
           </Container>
+        ) : (
+          <Container fluid className="table-container">
+            <Row className="filter-row">
+              <Col className="filter-col">
+                <Form.Control
+                  onChange={this.handleFilterChange}
+                  style={{ width: 300 }}
+                  placeholder="Filter by country..."
+                />
+              </Col>
+            </Row>
+            <Row className="table-row">
+              <Col>
+                <Table striped bordered hover variant="dark">
+                  <thead>
+                    <tr>
+                      <th>Get Historical Data</th>
+                      {Object.keys(info[0])
+                        .filter(i => dataArr.find(f => f.name === i))
+                        .map(key => (
+                          <th
+                            className="sortable-header"
+                            key={key}
+                            onClick={() => {
+                              this.sortColumn(key);
+                            }}
+                          >
+                            {dataArr.find(f => f.name === key).visible && (
+                              <FontAwesomeIcon
+                                className="arrow-icon"
+                                icon={
+                                  dataArr.find(f => f.name === key).sorted
+                                    ? faArrowUp
+                                    : faArrowDown
+                                }
+                              />
+                            )}
+                            {dataArr.find(d => d.name === key).display}
+                          </th>
+                        ))}
+                    </tr>
+                  </thead>
 
-          <Container fluid className="selection-container">
-            <Row className="small-row-align-center">
-              <Col>
-                <CountrySelectComponent
-                  defaultCountry={DEFAULT_COUNTRY}
-                  info={info}
-                  countrySelected={this.onCountrySelected}
-                ></CountrySelectComponent>
-              </Col>
-            </Row>
-            <Row className="img-row">
-              <Col className="col-md-12" style={{ paddingBottom: 10 }}>
-                <h2>{countryInfo.country}</h2>
-                <img src={countryInfo.countryInfo.flag}></img>
-              </Col>
-            </Row>
-          </Container>
-          {isLoading ? (
-            <Container fluid>
-              <Row>
-                <Col>
-                  <Spinner
-                    style={{ margin: "auto", display: "block" }}
-                    animation="border"
-                    role="status"
-                    hidden={!isLoading}
-                  >
-                    <span className="sr-only">Loading...</span>
-                  </Spinner>
-                </Col>
-              </Row>
-            </Container>
-          ) : (
-            <Container fluid className="elements-container">
-              {sizeArr.map((x, i) => (
-                <Row key={i} className="info-row">
-                  {dataArr
-                    .slice(i * num_cols, i * num_cols + num_cols)
-                    .map(el => (
-                      <Col
-                        md={12 / num_cols}
-                        sm="6"
-                        xs="12"
-                        className="element-col"
-                        key={el.display}
-                      >
-                        <InfoElementComponent
-                          infoName={el.display}
-                          infoValue={countryInfo[el.name]}
-                        ></InfoElementComponent>
-                      </Col>
+                  <tbody>
+                    {filteredInfo.map(i => (
+                      <tr>
+                        <td>
+                          <Link to={`/historical/${i.country}`}>
+                            <FontAwesomeIcon icon={faHistory} />
+                          </Link>
+                        </td>
+                        {Object.keys(filteredInfo[0])
+                          .filter(i => dataArr.find(f => f.name === i))
+                          .map(key => (
+                            <td key={key}>
+                              {key === "country" ? (
+                                <div>
+                                  <span>{i[key]}</span>
+                                  <img src={i.countryInfo.flag}></img>
+                                </div>
+                              ) : (
+                                i[key]
+                              )}
+                            </td>
+                          ))}
+                      </tr>
                     ))}
-                </Row>
-              ))}
-            </Container>
-          )}
-          <Container fluid className="bottom-container">
-            <Row className="small-row-align-center">
-              <Col>
-                <Link to={`/historical/${countryInfo.country}`}>
-                  <Button variant="primary">Get Historical data</Button>
-                </Link>
+                  </tbody>
+                </Table>
               </Col>
             </Row>
           </Container>
-        </React.Fragment>
-      )
+        )}
+      </React.Fragment>
     );
   }
 }

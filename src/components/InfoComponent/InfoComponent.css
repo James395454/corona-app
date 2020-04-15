@@ -1,38 +1,28 @@
-.header-container {
-  background-image: linear-gradient(to right, red, yellow);
-  color: white;
+.table-row {
+  margin-top: 10px;
 }
-.selection-container {
-  padding-top: 30px;
+
+.sortable-header:hover {
+  cursor: pointer;
+  color: gray;
 }
-.info-row > div {
-  background-color: #191a1a;
-  border: 1px white solid;
+
+.arrow-icon {
+  display: block;
+  margin: auto;
+  color: green;
 }
-.info-row {
-  color: white;
-  min-height: 200px;
-}
-.elements-container {
-  background-color: green;
-}
-.element-col {
-  border: 1px black solid !important;
-  border-radius: 5px;
-}
+
 .img-row {
   min-height: 250px;
   text-align: center;
 }
 img {
-  margin-top: 10px;
-  border: 3px gray solid !important;
+  margin-left: 10px;
+  height: 25px;
+  width: 25px;
 }
 .small-row-align-center {
   min-height: 50px;
   text-align: center;
-}
-.bottom-container {
-  padding-top: 20px;
-  padding-bottom: 20px;
 }

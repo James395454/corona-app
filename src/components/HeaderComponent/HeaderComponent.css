@@ -1,0 +1,8 @@
+.header-container {
+  background-image: linear-gradient(to right, red, yellow);
+  color: white;
+}
+
+.table-container {
+  padding-top: 30px;
+}

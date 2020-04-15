@@ -52,7 +52,9 @@ class HistoricalComponent extends Component {
   }
 
   arrangeData = () => {
-    const { data, keys, historicalData } = { ...this.state };
+    const { data, keys, historicalData } = JSON.parse(
+      JSON.stringify(this.state)
+    );
     if (historicalData) {
       Object.entries(historicalData.timeline).map(([key1, value1], index) => {
         if (keys.indexOf(key1) === -1) keys.push(key1);
@@ -79,17 +81,7 @@ class HistoricalComponent extends Component {
         <Container fluid>
           <Row>
             <Col className="header-col">
-              <h1>{country}</h1>
-            </Col>
-          </Row>
-        </Container>
-
-        <Container fluid className="btn-container">
-          <Row>
-            <Col className="header-col">
-              <Link to="/">
-                <Button variant="primary">Return to homepage</Button>
-              </Link>
+              <span>Historical statistics for: {country}</span>
             </Col>
           </Row>
         </Container>
@@ -113,7 +105,13 @@ class HistoricalComponent extends Component {
                   </Row>
                 </Container>
               ) : (
-                <Table striped bordered hover variant="dark">
+                <Table
+                  className="historical-table"
+                  striped
+                  bordered
+                  hover
+                  variant="dark"
+                >
                   <thead>
                     <tr>
                       {keys.map(key => (
@@ -133,6 +131,15 @@ class HistoricalComponent extends Component {
                   </tbody>
                 </Table>
               )}
+            </Col>
+          </Row>
+        </Container>
+        <Container fluid className="btn-container">
+          <Row style={{ minHeight: 50 }}>
+            <Col className="header-col">
+              <Link to="/">
+                <Button variant="primary">Return to homepage</Button>
+              </Link>
             </Col>
           </Row>
         </Container>

@@ -1,4 +1,5 @@
 import React from "react";
+import HeaderComponent from "./components/HeaderComponent/HeaderComponent";
 import InfoComponent from "./components/InfoComponent/InfoComponent";
 import HistoricalComponent from "./components/HistoricalComponent/HistoricalComponent";
 import { Switch, Route } from "react-router-dom";
@@ -9,6 +10,7 @@ import NotFoundComponent from "./components/NotFoundComponent";
 function App() {
   return (
     <React.Fragment>
+      <HeaderComponent></HeaderComponent>
       <Switch>
         <Route path="/" exact component={InfoComponent}></Route>
         <Route

@@ -3,30 +3,21 @@
 }
 
 .btn-container {
-  padding-top: 10px;
+  padding-top: 25px;
+  padding-bottom: 25px;
 }
 
 .table-container {
-  padding-top: 20px;
+  padding-top: 0;
 }
 
 .table-row {
-  max-height: 70vh;
-  overflow: auto;
+  max-height: 60vh !important;
 }
 
-table {
-  margin: auto !important;
-}
-
-table th,
-table td {
-  text-align: center;
-}
-
-@media only screen and (max-width: 500px) {
-  table th,
-  table td {
-    font-size: 0.6em;
+@media only screen and (max-width: 360px) {
+  .historical-table th,
+  .historical-table td {
+    font-size: 0.5rem !important;
   }
 }
