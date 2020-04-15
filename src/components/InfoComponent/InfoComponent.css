@@ -12,7 +12,9 @@
   margin: auto;
   color: green;
 }
-
+.filter-row {
+  margin-top: 10px;
+}
 .img-row {
   min-height: 250px;
   text-align: center;
