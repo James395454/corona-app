@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "https://corona.lmao.ninja/countries?sort=country";
+const url = "https://corona.lmao.ninja/v2/countries?sort=country";
 const historicalUrl = "https://corona.lmao.ninja/v2/historical";
 
 export async function getInfo() {
