@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHistory,
   faArrowUp,
-  faArrowDown
+  faArrowDown,
 } from "@fortawesome/free-solid-svg-icons";
 import { Container, Row, Col, Form, Spinner, Table } from "react-bootstrap";
 import "./InfoComponent.css";
@@ -19,7 +19,7 @@ const dataArrInitialValue = [
     display: "Today Deaths",
     name: "todayDeaths",
     sorted: false,
-    visible: false
+    visible: false,
   },
   { display: "Recovered", name: "recovered", sorted: false, visible: false },
   { display: "Active", name: "active", sorted: false, visible: false },
@@ -28,8 +28,8 @@ const dataArrInitialValue = [
     display: "Cases/Million",
     name: "casesPerOneMillion",
     sorted: false,
-    visible: false
-  }
+    visible: false,
+  },
 ];
 
 class InfoComponent extends Component {
@@ -37,46 +37,47 @@ class InfoComponent extends Component {
     isLoading: true,
     info: [],
     filteredInfo: [],
-    dataArr: [...dataArrInitialValue]
+    dataArr: [...dataArrInitialValue],
   };
   async componentDidMount() {
     const info = await getInfo();
     this.setState({
       info,
       filteredInfo: info,
-      isLoading: false
+      isLoading: false,
     });
   }
 
-  handleFilterChange = e => {
+  handleFilterChange = (e) => {
     const text = e.target.value;
     let { filteredInfo, info } = JSON.parse(JSON.stringify(this.state));
     filteredInfo = text.length
-      ? info.filter(i =>
+      ? info.filter((i) =>
           i.country.toLowerCase().startsWith(text.toLowerCase().trim())
         )
       : info;
     this.setState({ filteredInfo });
   };
 
-  sortColumn = headerText => {
+  sortColumn = (headerText) => {
     let { filteredInfo, dataArr } = JSON.parse(JSON.stringify(this.state));
-    const header = headerText;
-    let item = dataArr.find(d => d.name === headerText);
+    let item = dataArr.find((d) => d.name === headerText);
 
-    filteredInfo = filteredInfo.sort(function(a, b) {
-      if (!isNaN(a[header]))
-        return item.sorted ? b[header] - a[header] : a[header] - b[header];
-      else
+    filteredInfo = filteredInfo.sort(function (a, b) {
+      if (!isNaN(a[headerText]))
         return item.sorted
-          ? ("" + a[header]).localeCompare(b[header])
-          : ("" + b[header]).localeCompare(a[header]);
+          ? b[headerText] - a[headerText]
+          : a[headerText] - b[headerText];
+
+      return item.sorted
+        ? ("" + a[headerText]).localeCompare(b[headerText])
+        : ("" + b[headerText]).localeCompare(a[headerText]);
     });
 
     item.sorted = !item.sorted;
     item.visible = true;
-    let otherElements = dataArr.filter(d => d.name !== headerText);
-    otherElements.forEach(el => {
+    let otherElements = dataArr.filter((d) => d.name !== headerText);
+    otherElements.forEach((el) => {
       el.sorted = false;
       el.visible = false;
       return el;
@@ -121,8 +122,8 @@ class InfoComponent extends Component {
                     <tr>
                       <th>Get Historical Data</th>
                       {Object.keys(info[0])
-                        .filter(i => dataArr.find(f => f.name === i))
-                        .map(key => (
+                        .filter((i) => dataArr.find((f) => f.name === i))
+                        .map((key) => (
                           <th
                             className="sortable-header"
                             key={key}
@@ -130,24 +131,24 @@ class InfoComponent extends Component {
                               this.sortColumn(key);
                             }}
                           >
-                            {dataArr.find(f => f.name === key).visible && (
+                            {dataArr.find((f) => f.name === key).visible && (
                               <FontAwesomeIcon
                                 className="arrow-icon"
                                 icon={
-                                  dataArr.find(f => f.name === key).sorted
+                                  dataArr.find((f) => f.name === key).sorted
                                     ? faArrowUp
                                     : faArrowDown
                                 }
                               />
                             )}
-                            {dataArr.find(d => d.name === key).display}
+                            {dataArr.find((d) => d.name === key).display}
                           </th>
                         ))}
                     </tr>
                   </thead>
 
                   <tbody>
-                    {filteredInfo.map(i => (
+                    {filteredInfo.map((i) => (
                       <tr>
                         <td>
                           <Link to={`/historical/${i.country}`}>
@@ -155,8 +156,8 @@ class InfoComponent extends Component {
                           </Link>
                         </td>
                         {Object.keys(filteredInfo[0])
-                          .filter(i => dataArr.find(f => f.name === i))
-                          .map(key => (
+                          .filter((i) => dataArr.find((f) => f.name === i))
+                          .map((key) => (
                             <td key={key}>
                               {key === "country" ? (
                                 <div>
